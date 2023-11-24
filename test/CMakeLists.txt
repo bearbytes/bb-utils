@@ -5,3 +5,4 @@ function(add_new_test TEST_NAME)
 endfunction()
 
 add_new_test( basic-types-tests )
+add_new_test( constexpr-utils-tests )
