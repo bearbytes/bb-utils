@@ -1,0 +1,299 @@
+# This configuration file enlist all available clang-format options (v. 17) in
+# alphabetical order. Options available since v. 15 are marked with comment in
+# form "# CF17", which means "available in clang-format 16". Options which are
+# deprecated are marked with comment "# deprecated". Experimental options are
+# marked with comment "# experimental". Options not related to C++ are marked
+# with comment "# non-cpp".
+---
+
+# A
+
+AccessModifierOffset: -4
+AlignAfterOpenBracket: Align
+AlignArrayOfStructures: Right
+AlignConsecutiveAssignments:
+  Enabled: false
+  AcrossEmptyLines: false
+  AcrossComments: false
+  AlignCompound: false
+  PadOperators: false
+AlignConsecutiveBitFields:
+  Enabled: false
+  AcrossEmptyLines: false
+  AcrossComments: false
+  AlignCompound: false
+  PadOperators: false
+AlignConsecutiveDeclarations:
+  Enabled: false
+  AcrossEmptyLines: false
+  AcrossComments: false
+  AlignCompound: false
+  PadOperators: false
+AlignConsecutiveMacros:
+  Enabled: false
+  AcrossEmptyLines: false
+  AcrossComments: false
+  AlignCompound: false
+  PadOperators: false
+AlignConsecutiveShortCaseStatements: # CF17
+  Enabled: false
+  AcrossEmptyLines: false
+  AcrossComments: false
+  AlignCaseColons: false
+AlignEscapedNewlines: Left
+AlignOperands: Align
+AlignTrailingComments:
+  Kind: Never # CF16
+  OverEmptyLines: 0
+AllowAllArgumentsOnNextLine: true
+# AllowAllConstructorInitializersOnNextLine: true # deprecated
+AllowAllParametersOfDeclarationOnNextLine: true
+# AllowBreakBeforeNoexceptSpecifier: Never # CF18
+AllowShortBlocksOnASingleLine: true
+AllowShortCaseLabelsOnASingleLine: true
+# AllowShortCompoundRequirementOnASingleLine: true # CF18
+AllowShortEnumsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: All
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLambdasOnASingleLine: All
+AllowShortLoopsOnASingleLine: false
+# AlwaysBreakAfterDefinitionReturnType: false # deprecated
+AlwaysBreakAfterReturnType: None
+AlwaysBreakBeforeMultilineStrings: false
+AlwaysBreakTemplateDeclarations: Yes
+AttributeMacros: []
+
+# B
+
+BasedOnStyle: ""
+BinPackArguments: false
+BinPackParameters: false
+BitFieldColonSpacing: Both
+BraceWrapping:
+  AfterCaseLabel: false
+  AfterClass: false
+  AfterControlStatement: MultiLine
+  AfterEnum: false
+  AfterFunction: true
+  AfterNamespace: true
+  # AfterObjCDeclaration: false # non-cpp
+  AfterStruct: false
+  AfterUnion: false
+  AfterExternBlock: true
+  BeforeCatch: false
+  BeforeElse: false
+  BeforeLambdaBody: false
+  BeforeWhile: false
+  IndentBraces: false
+  SplitEmptyFunction: false
+  SplitEmptyRecord: false
+  SplitEmptyNamespace: false
+# BracedInitializerIndentWidth: 2 # CF17, unset deliberate for ContinuationIndentWidth
+BreakAfterAttributes: Leave # CF16
+# BreakAfterJavaFieldAnnotations: false # non-cpp
+# BreakArrays: false # non-cpp # CF16
+BreakBeforeBinaryOperators: None
+BreakBeforeBraces: Custom
+BreakBeforeConceptDeclarations: Always
+BreakBeforeInlineASMColon: Never # CF16
+BreakBeforeTernaryOperators: true
+BreakConstructorInitializers: AfterColon
+BreakInheritanceList: AfterColon
+BreakStringLiterals: true
+
+# C
+
+ColumnLimit: 100
+CommentPragmas: ""
+CompactNamespaces: false
+# ConstructorInitializerAllOnOneLineOrOnePerLine: fales # deprecated
+ConstructorInitializerIndentWidth: 0
+ContinuationIndentWidth: 0
+Cpp11BracedListStyle: true
+
+# D
+
+# DeriveLineEnding: false # deprecated
+DerivePointerAlignment: false
+DisableFormat: false
+
+# E
+
+EmptyLineAfterAccessModifier: Never
+EmptyLineBeforeAccessModifier: Always
+# ExperimentalAutoDetectBinPacking: false # experimental
+
+# F
+
+FixNamespaceComments: true
+ForEachMacros: []
+
+# I
+
+IfMacros: []
+IncludeBlocks: Preserve
+IncludeCategories: []
+IncludeIsMainRegex: ""
+IncludeIsMainSourceRegex: ""
+IndentAccessModifiers: false
+IndentCaseBlocks: false
+IndentCaseLabels: false
+IndentExternBlock: NoIndent
+IndentGotoLabels: true
+IndentPPDirectives: BeforeHash
+IndentRequiresClause: false # CF15
+IndentWidth: 4
+IndentWrappedFunctionNames: false
+InsertBraces: true # CF15
+InsertNewlineAtEOF: true # CF16
+InsertTrailingCommas: None
+IntegerLiteralSeparator: # CF16
+  Binary: 4
+  BinaryMinDigits: 8
+  Decimal: 3
+  DecimalMinDigits: 5
+  Hex: 2
+  HexMinDigits: 4
+
+# J
+
+# JavaImportGroups: [] # non-cpp
+# JavaScriptQuotes : Leave # non-cpp
+# JavaScriptWrapImports: false # non-cpp
+
+# K
+
+KeepEmptyLinesAtTheStartOfBlocks: false # CF17
+KeepEmptyLinesAtEOF: false
+
+# L
+
+LambdaBodyIndentation: Signature
+Language: Cpp
+LineEnding: LF # CF16
+
+# M
+
+MacroBlockBegin: ""
+MacroBlockEnd: ""
+Macros: [] # CF17
+MaxEmptyLinesToKeep: 1
+
+# N
+
+NamespaceIndentation: None
+NamespaceMacros: []
+
+# O
+
+# ObjCBinPackProtocolList: Never # non-cpp
+# ObjCBlockIndentWidth: 4 # non-cpp
+# ObjCBreakBeforeNestedBlockParam: false # non-cpp
+# ObjCSpaceAfterProperty: false # non-cpp
+# ObjCSpaceBeforeProtocolList: false # non-cpp
+
+# P
+
+PPIndentWidth: -1
+PackConstructorInitializers: NextLine
+PenaltyBreakAssignment: 1
+PenaltyBreakBeforeFirstCallParameter: 1
+PenaltyBreakComment: 1
+PenaltyBreakFirstLessLess: 1
+PenaltyBreakOpenParenthesis: 1
+PenaltyBreakString: 1
+PenaltyBreakTemplateDeclaration: 1
+PenaltyExcessCharacter: 1
+PenaltyIndentedWhitespace: 1
+PenaltyReturnTypeOnItsOwnLine: 9999
+PointerAlignment: Middle
+
+# Q
+
+QualifierAlignment: Custom
+QualifierOrder: [ 'inline', 'static', 'constexpr', 'type', 'const', 'volatile' ]
+
+# R
+
+RawStringFormats: []
+ReferenceAlignment: Middle
+ReflowComments: true
+RemoveBracesLLVM: false
+RemoveParentheses: Leave # CF17
+RemoveSemicolon: true # CF16
+RequiresClausePosition: OwnLine # CF15
+RequiresExpressionIndentation: OuterScope # CF16
+
+# S
+
+SeparateDefinitionBlocks: Leave
+ShortNamespaceLines: 10
+SortIncludes: CaseSensitive
+# SortJavaStaticImport: Before # non-cpp
+SortUsingDeclarations: Never
+SpaceAfterCStyleCast: false
+SpaceAfterLogicalNot: false
+SpaceAfterTemplateKeyword: true
+SpaceAroundPointerQualifiers: Default
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeCaseColon: false
+SpaceBeforeCpp11BracedList: false
+SpaceBeforeCtorInitializerColon: true
+SpaceBeforeInheritanceColon: true
+# SpaceBeforeJsonColon: true # non-cpp # CF17
+SpaceBeforeParens: Custom
+SpaceBeforeParensOptions:
+  AfterControlStatements: true
+  AfterForeachMacros: false
+  AfterFunctionDeclarationName: false
+  AfterFunctionDefinitionName: false
+  AfterIfMacros: false
+  AfterOverloadedOperator: false
+  # AfterPlacementOperatorStyle: true # CF18
+  AfterRequiresInClause: true
+  AfterRequiresInExpression: true
+  BeforeNonEmptyParentheses: false
+SpaceBeforeRangeBasedForLoopColon: true
+SpaceBeforeSquareBrackets: false
+SpaceInEmptyBlock: false
+# SpaceInEmptyParentheses: true # deprecated
+SpacesBeforeTrailingComments: 1
+SpacesInAngles: Never
+# SpacesInCStyleCastParentheses: true # deprecated
+# SpacesInConditionalStatement: true # deprecated
+# SpacesInContainerLiterals: false # non-cpp
+SpacesInLineCommentPrefix:
+  Minimum: 1
+  Maximum: 1
+SpacesInParens: Custom # CF17
+SpacesInParensOptions:
+  InConditionalStatements: true
+  InCStyleCasts: true
+  InEmptyParentheses: false
+  Other: true
+# SpacesInParentheses: true # deprecated
+SpacesInSquareBrackets: false
+Standard: c++20
+StatementAttributeLikeMacros: []
+StatementMacros: []
+
+# T
+
+TabWidth: 4
+TypeNames: [] # CF17
+TypenameMacros: []
+
+# U
+
+# UseCRLF: false # deprecated
+UseTab: Never
+
+# V
+
+# VerilogBreakBetweenInstancePorts: false # non-cpp
+
+# W
+
+WhitespaceSensitiveMacros: []
+
+...
