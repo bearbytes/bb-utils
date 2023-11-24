@@ -6,5 +6,7 @@ endfunction()
 
 add_new_test( array-tests )
 add_new_test( basic-types-tests )
+add_new_test( byte-tests )
+add_new_test( byte-utils-tests )
 add_new_test( constexpr-utils-tests )
 add_new_test( span-tests )
