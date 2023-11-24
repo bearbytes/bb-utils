@@ -10,6 +10,7 @@ target_sources( bb INTERFACE
     bb/basic-types-limits.h
     bb/basic-types-utils.h
     bb/basic-types.h
+    bb/clamped.h
     bb/constexpr-utils.h
 )
 
