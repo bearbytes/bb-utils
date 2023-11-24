@@ -15,6 +15,7 @@ target_sources( bb INTERFACE
     bb/byte.h
     bb/clamped.h
     bb/constexpr-utils.h
+    bb/on-scope-exit.h
     bb/span.h
 )
 
