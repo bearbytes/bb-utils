@@ -12,6 +12,7 @@ target_sources( bb INTERFACE
     bb/basic-types.h
     bb/clamped.h
     bb/constexpr-utils.h
+    bb/span.h
 )
 
 install( TARGETS bb
