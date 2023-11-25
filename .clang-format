@@ -1,9 +1,16 @@
-# This configuration file enlist all available clang-format options (v. 17) in
-# alphabetical order. Options available since v. 15 are marked with comment in
-# form "# CF17", which means "available in clang-format 16". Options which are
-# deprecated are marked with comment "# deprecated". Experimental options are
-# marked with comment "# experimental". Options not related to C++ are marked
-# with comment "# non-cpp".
+# This configuration file enlists all available clang-format options (for
+# version 18.0.0git as of November 25, 2023). The list is given in alphabetical
+# order. For various reasons, some of the options are commented out (e.g.
+# option is not related to C++).
+
+# Options available since version 15 are marked with comment "# CFXX", where XX
+# stands for version number. Options available in versions 18 and above are
+# commented out.
+
+# Options which are deprecated are commented out and marked with comment
+# "# deprecated". Experimental options are marked with comment "# experimental".
+
+# Options not related to C++ are marked  with comment "# non-cpp".
 ---
 
 # A
