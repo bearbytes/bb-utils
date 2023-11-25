@@ -11,7 +11,7 @@ The reason for existence of this repository is twofold:
 ## Build, test, install
 
 ```console
-$ cmake -S . -B build
+$ cmake -S . -B build -D CMAKE_EXPORT_COMPILE_COMMANDS=ON
 $ cmake --build build
 $ ctest --test-dir build
 $ cmake --install build --prefix <some-path>

@@ -12,7 +12,7 @@ static constexpr auto zeroed_array() -> array<int, 5>
     return a;
 }
 
-int main()
+auto main() -> int
 {
     constexpr array<int, 5> a = { 1, 2, 3, 4, 5 };
     static_assert( a.size() == 5 );

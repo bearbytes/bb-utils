@@ -5,7 +5,7 @@
 using namespace bb;
 using namespace bb::test;
 
-int main()
+auto main() -> int
 {
     static_assert( is_noexcept_copy_constructible<S>() );
     static_assert( !is_noexcept_copy_assignable<S>() );

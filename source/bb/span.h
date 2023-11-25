@@ -17,8 +17,8 @@ public:
     span( span const & ) = default;
     span( span && ) = default;
 
-    span & operator=( span const & ) = default;
-    span & operator=( span && ) = default;
+    auto operator=( span const & ) -> span & = default;
+    auto operator=( span && ) -> span & = default;
 
     constexpr span( T * data, size length ) : data_{ data }, length_{ length } {}
 
@@ -38,8 +38,8 @@ public:
     constexpr auto begin() noexcept -> T * { return data_; }
     constexpr auto end() noexcept -> T * { return data_ + length_; }
 
-    constexpr auto size() const noexcept -> bb::size { return length_; }
-    constexpr auto is_empty() const noexcept -> bool { return length_ == 0; }
+    [[nodiscard]] constexpr auto size() const noexcept -> bb::size { return length_; }
+    [[nodiscard]] constexpr auto is_empty() const noexcept -> bool { return length_ == 0; }
 
     constexpr auto take_first() noexcept( is_noexcept_copy_assignable<T>() ) -> T
     {
@@ -90,8 +90,8 @@ public:
     constexpr operator T const *() const noexcept { return data_; }
     constexpr operator T *() noexcept { return data_; }
 
-    constexpr T const & operator[]( bb::size n ) const noexcept { return data_[n]; }
-    constexpr T & operator[]( bb::size n ) noexcept { return data_[n]; }
+    constexpr auto operator[]( bb::size n ) const noexcept -> T const & { return data_[n]; }
+    constexpr auto operator[]( bb::size n ) noexcept -> T & { return data_[n]; }
 };
 
 } // namespace bb

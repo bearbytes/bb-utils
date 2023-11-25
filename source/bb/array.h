@@ -26,7 +26,7 @@ struct array {
     constexpr auto begin() noexcept -> T * { return data; }
     constexpr auto end() noexcept -> T * { return data + N; }
 
-    constexpr auto size() const noexcept -> bb::size { return N; }
+    [[nodiscard]] constexpr auto size() const noexcept -> bb::size { return N; }
 
     constexpr auto contains( T const & element ) const noexcept( is_noexcept_eq_comparable<T>() ) -> bool
     {
@@ -48,8 +48,11 @@ struct array {
     constexpr operator T *() noexcept { return data; }
     constexpr operator T const *() const noexcept { return data; }
 
-    constexpr T const & operator[]( bb::size n ) const noexcept { return data[array_index{ n }]; }
-    constexpr T & operator[]( bb::size n ) noexcept { return data[array_index{ n }]; }
+    constexpr auto operator[]( bb::size n ) const noexcept -> T const &
+    {
+        return data[array_index{ n }];
+    }
+    constexpr auto operator[]( bb::size n ) noexcept -> T & { return data[array_index{ n }]; }
 };
 
 template <class T, typename... Ts>

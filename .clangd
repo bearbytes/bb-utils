@@ -1,0 +1,31 @@
+CompileFlags:
+  Add: [-std=c++23 -xc++, -Wall -Wextra]
+  Compiler: clang++
+  CompilationDatabase: build
+
+Index:
+  Background: Skip
+  StandardLibrary: No
+
+Style:
+  FullyQualifiedNamespaces: No
+
+Diagnostics:
+  ClangTidy:
+    Add: modernize*
+    Remove: modernize-avoid-c-arrays
+  UnusedIncludes: Strict
+
+Completion:
+  AllScopes: No
+
+InlayHints:
+  BlockEnd: No
+  Designators: Yes
+  Enabled: No
+  ParameterNames: Yes
+  DeducedTypes: Yes
+  TypeNameLimit: 24
+
+Hover:
+  ShowAKA: Yes

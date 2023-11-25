@@ -15,9 +15,9 @@ inline constexpr char const byte_chars_upper[16] = {
 using byte_bin_str = array<char const, 9>;
 using byte_hex_str = array<char const, 3>;
 
-inline constexpr char to_digit( clamped<u8, 0, 9> value ) { return value + '0'; }
+inline constexpr auto to_digit( clamped<u8, 0, 9> value ) -> char { return value + '0'; }
 
-inline constexpr byte_bin_str as_binary_str( byte b )
+inline constexpr auto as_binary_str( byte b ) -> byte_bin_str
 {
     return {
     to_digit( ( as_u8( b ) & 0b1000'0000 ) >> 7 ),
@@ -31,12 +31,12 @@ inline constexpr byte_bin_str as_binary_str( byte b )
     '\0' };
 }
 
-inline constexpr byte_hex_str as_hex_str( byte b )
+inline constexpr auto as_hex_str( byte b ) -> byte_hex_str
 {
     return { byte_chars[as_u8( b >> 4 )], byte_chars[as_u8( b & 0x0f )], '\0' };
 }
 
-inline constexpr byte_hex_str as_hex_str_upper( byte b )
+inline constexpr auto as_hex_str_upper( byte b ) -> byte_hex_str
 {
     return { byte_chars_upper[as_u8( b >> 4 )], byte_chars_upper[as_u8( b & 0x0f )], '\0' };
 }

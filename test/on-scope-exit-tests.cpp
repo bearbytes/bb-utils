@@ -5,7 +5,7 @@
 using namespace bb;
 using namespace bb::test;
 
-int main()
+auto main() -> int
 {
     int value = 5;
     {

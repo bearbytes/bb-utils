@@ -4,13 +4,13 @@ namespace bb::test
 {
 
 struct S {
-    constexpr S() {}
+    constexpr S() = default;
 
-    constexpr S( S const & ) noexcept( true ) {}
+    constexpr S( S const & ) noexcept( true ) = default;
     constexpr S( S && ) {}
 
-    constexpr S & operator=( S const & ) noexcept( false ) { return *this; }
-    constexpr S & operator=( S && ) { return *this; }
+    constexpr auto operator=( S const & ) noexcept( false ) -> S & = default;
+    constexpr auto operator=( S && ) -> S & = default;
 
     constexpr auto operator==( S const & ) const noexcept -> bool { return true; }
 };
