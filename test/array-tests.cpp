@@ -5,7 +5,7 @@
 using namespace bb;
 using namespace bb::test;
 
-static constexpr auto zeroed_array() -> array<int, 5>
+constexpr auto zeroed_array() -> array<int, 5>
 {
     array a = { 1, 2, 3, 4, 5 };
     a.fill( 0 );

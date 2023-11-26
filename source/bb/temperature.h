@@ -42,16 +42,16 @@ public:
         return from_millifahrneheit( f * 1000 );
     }
 
-    [[nodiscard]] constexpr auto as_millikelvin() const noexcept -> i32 { return millikelvin_; }
+    [[nodiscard]] constexpr auto as_millikelvin() const noexcept -> u32 { return millikelvin_; }
 
-    [[nodiscard]] constexpr auto as_kelvin() const noexcept -> i32
+    [[nodiscard]] constexpr auto as_kelvin() const noexcept -> u32
     {
         return as_millikelvin() / 1000;
     }
 
     [[nodiscard]] constexpr auto as_millicelsius() const noexcept -> i32
     {
-        return millikelvin_ - 273'150;
+        return as_i32( millikelvin_ - 273'150 );
     }
 
     [[nodiscard]] constexpr auto as_celsius() const noexcept -> i32
@@ -61,7 +61,7 @@ public:
 
     [[nodiscard]] constexpr auto as_millifahrneheit() const noexcept -> i32
     {
-        return ( millikelvin_ * 9 - 2'298'350 ) / 5;
+        return as_i32( millikelvin_ * 9 - 2'298'350 ) / 5;
     }
 
     [[nodiscard]] constexpr auto get_fahrenheit() const noexcept -> i32

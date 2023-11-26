@@ -11,10 +11,8 @@ Style:
   FullyQualifiedNamespaces: No
 
 Diagnostics:
-  ClangTidy:
-    Add: modernize*
-    Remove: modernize-avoid-c-arrays
   UnusedIncludes: Strict
+  MissingIncludes: None
 
 Completion:
   AllScopes: No

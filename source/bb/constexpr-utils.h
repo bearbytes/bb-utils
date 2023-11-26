@@ -43,7 +43,7 @@ inline constexpr auto is_noexcept_eq_comparable() noexcept -> bool
 }
 
 template <class T, size N>
-constexpr auto array_size( T ( & )[N] ) -> size
+constexpr auto array_size( T ( & /* a */ )[N] ) -> size
 {
     return N;
 }

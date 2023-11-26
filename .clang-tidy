@@ -1,0 +1,36 @@
+# This configuration file is a work in progress. The options are probed against
+# this project to fit its needs as well as possible.
+
+---
+ExtraArgs: []
+ExtraArgsBefore: []
+FormatStyle: file
+HeaderFileExtensions: ['', 'h', 'hpp', 'hh', 'hxx']
+HeaderFilterRegex: ''
+ImplementationFileExtensions: ['c', 'cpp', 'cxx', 'cc']
+InheritParentConfig: false
+SystemHeaders: false
+UseColor: true
+User: Bearbytes
+WarningsAsErrors: ''
+
+Checks: [
+  # Add:
+  'clang-diagnostics-*',
+  'bugprone-*',
+  'clang-analyzer-*',
+  'misc-*',
+  'modernize-*',
+  'performance-*',
+  'portability-*',
+  'readability-*',
+
+  # Remove:
+  '-modernize-avoid-c-arrays',
+  '-readability-identifier-length',
+  '-readability-magic-numbers'
+]
+
+CheckOptions:
+  misc-non-private-member-variables-in-classes.IgnoreClassesWithAllMemberVariablesBeingPublic: true
+  readability-identifier-naming.* : lower_case
