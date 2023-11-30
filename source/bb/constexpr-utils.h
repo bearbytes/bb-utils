@@ -19,6 +19,36 @@ template <class T>
 using without_const = typename remove_const<T>::type;
 
 template <class T>
+struct remove_reference {
+    using type = T;
+};
+
+template <class T>
+struct remove_reference<T &> {
+    using type = T;
+};
+
+template <class T>
+struct remove_reference<T &&> {
+    using type = T;
+};
+
+template <class T>
+using without_reference = typename remove_reference<T>::type;
+
+template <class T>
+constexpr auto move( T && v ) noexcept -> without_reference<T> &&
+{
+    return static_cast<without_reference<T> &&>( v );
+}
+
+template <class T>
+constexpr auto forward( without_reference<T> & v ) noexcept -> T &&
+{
+    return static_cast<T &&>( v );
+}
+
+template <class T>
 inline constexpr auto declval() noexcept -> T &
 {
     static_assert( false );
