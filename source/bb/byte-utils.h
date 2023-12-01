@@ -6,10 +6,10 @@
 namespace bb
 {
 
-inline constexpr char const byte_chars[16] = {
+inline constexpr array<char const, 16> byte_chars = {
 '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
-inline constexpr char const byte_chars_upper[16] = {
+inline constexpr array<char const, 16> byte_chars_upper = {
 '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
 using byte_bin_str = array<char const, 9>;
@@ -23,14 +23,14 @@ inline constexpr auto to_digit( clamped<u8, 0, 9> value ) -> char
 inline constexpr auto as_binary_str( byte b ) -> byte_bin_str
 {
     return {
-    to_digit( ( as_u8( b ) & 0b1000'0000 ) >> 7 ),
-    to_digit( ( as_u8( b ) & 0b0100'0000 ) >> 6 ),
-    to_digit( ( as_u8( b ) & 0b0010'0000 ) >> 5 ),
-    to_digit( ( as_u8( b ) & 0b0001'0000 ) >> 4 ),
-    to_digit( ( as_u8( b ) & 0b0000'1000 ) >> 3 ),
-    to_digit( ( as_u8( b ) & 0b0000'0100 ) >> 2 ),
-    to_digit( ( as_u8( b ) & 0b0000'0010 ) >> 1 ),
-    to_digit( ( as_u8( b ) & 0b0000'0001 ) >> 0 ),
+    to_digit( as_u8( b & 0b1000'0000 ) >> 7 ),
+    to_digit( as_u8( b & 0b0100'0000 ) >> 6 ),
+    to_digit( as_u8( b & 0b0010'0000 ) >> 5 ),
+    to_digit( as_u8( b & 0b0001'0000 ) >> 4 ),
+    to_digit( as_u8( b & 0b0000'1000 ) >> 3 ),
+    to_digit( as_u8( b & 0b0000'0100 ) >> 2 ),
+    to_digit( as_u8( b & 0b0000'0010 ) >> 1 ),
+    to_digit( as_u8( b & 0b0000'0001 ) >> 0 ),
     '\0' };
 }
 
