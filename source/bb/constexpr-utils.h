@@ -48,6 +48,14 @@ constexpr auto forward( without_reference<T> & v ) noexcept -> T &&
     return static_cast<T &&>( v );
 }
 
+template <class T, class U>
+constexpr auto exchange( T & t, U && u ) -> T
+{
+    T temp = t;
+    t = move( u );
+    return temp;
+}
+
 template <class T>
 inline constexpr auto declval() noexcept -> T &
 {
