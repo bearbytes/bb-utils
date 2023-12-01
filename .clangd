@@ -1,5 +1,11 @@
+# In VS Code add the following command line arguments for clangd:
+# --compile-commands-dir=build
+# --enable-config
+# --clang-tidy
+# --header-insertion=never
+
 CompileFlags:
-  Add: [-std=c++23 -xc++, -Wall -Wextra]
+  Add: [-Wall, -Wextra]
   Compiler: clang++
   CompilationDatabase: build
 
@@ -11,6 +17,9 @@ Style:
   FullyQualifiedNamespaces: No
 
 Diagnostics:
+  ClangTidy:
+    Add: []
+    Remove: []
   UnusedIncludes: Strict
   MissingIncludes: None
 
