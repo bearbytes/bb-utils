@@ -15,12 +15,12 @@ inline constexpr array<char const, 16> byte_chars_upper = {
 using byte_bin_str = array<char const, 9>;
 using byte_hex_str = array<char const, 3>;
 
-inline constexpr auto to_digit( restricted<u8, 0, 9> value ) -> char
+inline constexpr auto to_digit( restricted<u8, 0, 9> value ) noexcept -> char
 {
     return static_cast<char>( value + '0' );
 }
 
-inline constexpr auto as_binary_str( byte b ) -> byte_bin_str
+inline constexpr auto as_binary_str( byte b ) noexcept -> byte_bin_str
 {
     return {
     to_digit( as_u8( b & 0b1000'0000 ) >> 7 ),
@@ -34,12 +34,12 @@ inline constexpr auto as_binary_str( byte b ) -> byte_bin_str
     '\0' };
 }
 
-inline constexpr auto as_hex_str( byte b ) -> byte_hex_str
+inline constexpr auto as_hex_str( byte b ) noexcept -> byte_hex_str
 {
     return { byte_chars[as_u8( b >> 4 )], byte_chars[as_u8( b & 0x0f )], '\0' };
 }
 
-inline constexpr auto as_hex_str_upper( byte b ) -> byte_hex_str
+inline constexpr auto as_hex_str_upper( byte b ) noexcept -> byte_hex_str
 {
     return { byte_chars_upper[as_u8( b >> 4 )], byte_chars_upper[as_u8( b & 0x0f )], '\0' };
 }

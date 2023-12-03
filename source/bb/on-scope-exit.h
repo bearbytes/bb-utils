@@ -1,5 +1,7 @@
 #pragma once
 
+#include <bb/constexpr-utils.h>
+
 namespace bb
 {
 
@@ -8,9 +10,12 @@ class on_scope_exit {
     F action_;
 
 public:
-    constexpr on_scope_exit( F action ) : action_{ action } {}
+    constexpr on_scope_exit( F action ) noexcept( is_noexcept_copy_constructible<F>() ) :
+    action_{ action }
+    {}
 
-    constexpr ~on_scope_exit() { action_(); }
+    // TODO: noexcept if F dtor is noexcept
+    constexpr ~on_scope_exit() noexcept( noexcept( declval<F>()() ) ) { action_(); }
 };
 
 } // namespace bb

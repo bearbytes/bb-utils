@@ -21,7 +21,7 @@ class callable {
         auto clone() const -> model * final { return new implementation( action ); }
         auto operator()( Args &&... args ) -> Return final
         {
-            return action( forward<Args>( args )... );
+            return action( as_forwarding<Args>( args )... );
         }
 
         Fn action;
@@ -58,7 +58,10 @@ public:
         return *this;
     }
 
-    auto operator()( Args &&... args ) -> Return { return ( *pimpl_ )( forward<Args>( args )... ); }
+    auto operator()( Args &&... args ) -> Return
+    {
+        return ( *pimpl_ )( as_forwarding<Args>( args )... );
+    }
 
     [[nodiscard]] auto is_active() const noexcept -> bool { return pimpl_ != nullptr; }
 };

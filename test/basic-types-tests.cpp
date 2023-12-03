@@ -1,11 +1,9 @@
+#include <bb/assert.h>
 #include <bb/basic-types-limits.h>
 #include <bb/basic-types-utils.h>
 #include <bb/basic-types.h>
 
-#include "utils/dynamic-assert.h"
-
 using namespace bb;
-using namespace bb::test;
 
 auto main() -> int
 {
@@ -25,13 +23,13 @@ auto main() -> int
     // integer overflow is a non-constexpr undefined behavior.
     static_assert( as_i8( i8_max + 1 ) == i8_min );
     static_assert( as_i16( i16_max + 1 ) == i16_min );
-    dynamic_assert( as_i32( ( unsigned )i32_max + 1 ) == i32_min );
-    dynamic_assert( as_i64( ( unsigned long )i64_max + 1 ) == i64_min );
+    assert( as_i32( ( unsigned )i32_max + 1 ) == i32_min );
+    assert( as_i64( ( unsigned long )i64_max + 1 ) == i64_min );
 
     static_assert( as_i8( i8_min - 1 ) == i8_max );
     static_assert( as_i16( i16_min - 1 ) == i16_max );
-    dynamic_assert( as_i32( ( unsigned )i32_min - 1 ) == i32_max );
-    dynamic_assert( as_i64( ( unsigned long )i64_min - 1 ) == i64_max );
+    assert( as_i32( ( unsigned )i32_min - 1 ) == i32_max );
+    assert( as_i64( ( unsigned long )i64_min - 1 ) == i64_max );
 
     static_assert( as_u8( u16_max ) == u8_max );
     static_assert( as_u8( u32_max ) == u8_max );

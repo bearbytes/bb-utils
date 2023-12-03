@@ -37,28 +37,29 @@ template <class T>
 using without_reference = typename remove_reference<T>::type;
 
 template <class T>
-constexpr auto move( T && v ) noexcept -> without_reference<T> &&
+inline constexpr auto as_movable( T && v ) noexcept -> without_reference<T> &&
 {
     return static_cast<without_reference<T> &&>( v );
 }
 
 template <class T>
-constexpr auto forward( without_reference<T> & v ) noexcept -> T &&
+inline constexpr auto as_forwarding( without_reference<T> & v ) noexcept -> T &&
 {
     return static_cast<T &&>( v );
 }
 
 template <class T, class U>
-constexpr auto exchange( T & t, U && u ) -> T
+inline constexpr auto exchange( T & t, U && u ) -> T
 {
     T temp = t;
-    t = move( u );
+    t = as_movable( u );
     return temp;
 }
 
 template <class T>
 inline constexpr auto declval() noexcept -> T &
 {
+    // declval can only be used in non-evaluated context
     static_assert( false );
 }
 
@@ -81,7 +82,7 @@ inline constexpr auto is_noexcept_eq_comparable() noexcept -> bool
 }
 
 template <class T, size N>
-constexpr auto array_size( T ( & /* a */ )[N] ) -> size
+inline constexpr auto array_size( T ( & /* a */ )[N] ) noexcept -> size
 {
     return N;
 }

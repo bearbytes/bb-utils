@@ -1,6 +1,5 @@
 #pragma once
 
-#include <bb/constexpr-utils.h>
 #include <bb/restricted.h>
 
 namespace bb
@@ -10,7 +9,7 @@ template <class T, size N>
 struct array {
     static_assert( N > 0 );
 
-    using array_index = restricted<size, 0, N - 1>;
+    using index = restricted<size, 0, N - 1>;
 
     T data[N]{};
 
@@ -48,11 +47,8 @@ struct array {
     constexpr operator T *() noexcept { return data; }
     constexpr operator T const *() const noexcept { return data; }
 
-    constexpr auto operator[]( bb::size n ) const noexcept -> T const &
-    {
-        return data[array_index{ n }];
-    }
-    constexpr auto operator[]( bb::size n ) noexcept -> T & { return data[array_index{ n }]; }
+    constexpr auto operator[]( bb::size n ) const noexcept -> T const & { return data[index( n )]; }
+    constexpr auto operator[]( bb::size n ) noexcept -> T & { return data[index( n )]; }
 };
 
 template <class T, typename... Ts>

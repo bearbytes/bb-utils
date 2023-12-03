@@ -8,6 +8,7 @@ target_include_directories( bb INTERFACE
 target_sources( bb INTERFACE
     FILE_SET HEADERS BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR} FILES
     bb/array.h
+    bb/assert.h
     bb/basic-types-limits.h
     bb/basic-types-utils.h
     bb/basic-types.h

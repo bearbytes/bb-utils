@@ -1,5 +1,6 @@
 #pragma once
 
+#include <bb/assert.h>
 #include <bb/constexpr-utils.h>
 
 namespace bb
@@ -10,15 +11,20 @@ class span {
     T * data_{};
     size length_{};
 
+    [[nodiscard]] constexpr auto is_not_empty() const noexcept -> bool
+    {
+        return data_ != nullptr and length_ > 0;
+    }
+
 public:
-    span() = default;
-    ~span() = default;
+    constexpr span() noexcept = default;
+    constexpr ~span() noexcept = default;
 
-    span( span const & ) = default;
-    span( span && ) = default;
+    constexpr span( span const & ) noexcept = default;
+    constexpr span( span && ) noexcept = default;
 
-    auto operator=( span const & ) -> span & = default;
-    auto operator=( span && ) -> span & = default;
+    constexpr auto operator=( span const & ) noexcept -> span & = default;
+    constexpr auto operator=( span && ) noexcept -> span & = default;
 
     constexpr span( T * data, size length ) : data_{ data }, length_{ length } {}
 
@@ -26,11 +32,27 @@ public:
     constexpr span( T ( &array )[N] ) : span{ &( array[0] ), N }
     {}
 
-    constexpr auto first() const noexcept -> T const & { return data_[0]; }
-    constexpr auto last() const noexcept -> T const & { return data_[length_ - 1]; }
+    constexpr auto first() const noexcept -> T const &
+    {
+        assert( is_not_empty() );
+        return data_[0];
+    }
+    constexpr auto last() const noexcept -> T const &
+    {
+        assert( is_not_empty() );
+        return data_[length_ - 1];
+    }
 
-    constexpr auto first() noexcept -> T & { return data_[0]; }
-    constexpr auto last() noexcept -> T & { return data_[length_ - 1]; }
+    constexpr auto first() noexcept -> T &
+    {
+        assert( is_not_empty() );
+        return data_[0];
+    }
+    constexpr auto last() noexcept -> T &
+    {
+        assert( is_not_empty() );
+        return data_[length_ - 1];
+    }
 
     constexpr auto begin() const noexcept -> T const * { return data_; }
     constexpr auto end() const noexcept -> T const * { return data_ + length_; }
@@ -41,16 +63,18 @@ public:
     [[nodiscard]] constexpr auto size() const noexcept -> bb::size { return length_; }
     [[nodiscard]] constexpr auto is_empty() const noexcept -> bool { return length_ == 0; }
 
-    constexpr auto take_first() noexcept( is_noexcept_copy_assignable<T>() ) -> T
+    constexpr auto take_first() noexcept( is_noexcept_copy_constructible<T>() ) -> T
     {
+        assert( is_not_empty() );
         T & tmp = first();
         ++data_;
         --length_;
         return tmp;
     }
 
-    constexpr auto take_last() noexcept( is_noexcept_copy_assignable<T>() ) -> T
+    constexpr auto take_last() noexcept( is_noexcept_copy_constructible<T>() ) -> T
     {
+        assert( is_not_empty() );
         T & tmp = last();
         --length_;
         return tmp;
@@ -58,7 +82,8 @@ public:
 
     constexpr auto shrink_front( bb::size n ) noexcept -> void
     {
-        if ( length_ >= n ) {
+        assert( data_ != nullptr );
+        if ( n < length_ ) {
             data_ += n;
             length_ -= n;
         } else {
@@ -69,7 +94,7 @@ public:
 
     constexpr auto shrink_back( bb::size n ) noexcept -> void
     {
-        if ( length_ >= n ) {
+        if ( n < length_ ) {
             length_ -= n;
         } else {
             data_ = nullptr;
@@ -90,8 +115,18 @@ public:
     constexpr operator T const *() const noexcept { return data_; }
     constexpr operator T *() noexcept { return data_; }
 
-    constexpr auto operator[]( bb::size n ) const noexcept -> T const & { return data_[n]; }
-    constexpr auto operator[]( bb::size n ) noexcept -> T & { return data_[n]; }
+    constexpr auto operator[]( bb::size n ) const noexcept -> T const &
+    {
+        assert( n < length_ );
+        assert( data_ != nullptr );
+        return data_[n];
+    }
+    constexpr auto operator[]( bb::size n ) noexcept -> T &
+    {
+        assert( n < length_ );
+        assert( data_ != nullptr );
+        return data_[n];
+    }
 };
 
 } // namespace bb
