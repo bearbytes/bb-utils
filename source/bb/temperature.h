@@ -69,12 +69,15 @@ public:
         return as_millifahrneheit() / 1000;
     }
 
-    constexpr auto operator<=>( temperature const & other ) const noexcept -> i64
+    constexpr auto operator<=>( temperature other ) const noexcept -> i64
     {
         return as_i64( millikelvin_ ) - as_i64( other.millikelvin_ );
     }
 
-    constexpr auto operator==( temperature const & other ) const noexcept -> bool = default;
+    constexpr auto operator==( temperature other ) const noexcept -> bool
+    {
+        return millikelvin_ == other.millikelvin_;
+    }
 };
 
 } // namespace bb

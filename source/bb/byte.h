@@ -2,14 +2,14 @@
 
 #include <bb/basic-types-utils.h>
 #include <bb/basic-types.h>
-#include <bb/clamped.h>
+#include <bb/restricted.h>
 
 namespace bb
 {
 
 enum class byte : u8 {};
 
-using bit_index = clamped<u8, 0, 7>;
+using bit_index = restricted<u8, 0, 7>;
 
 inline constexpr auto as_byte( u8 b ) noexcept -> byte { return static_cast<byte>( b ); }
 

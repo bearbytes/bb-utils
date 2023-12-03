@@ -15,7 +15,7 @@ inline constexpr array<char const, 16> byte_chars_upper = {
 using byte_bin_str = array<char const, 9>;
 using byte_hex_str = array<char const, 3>;
 
-inline constexpr auto to_digit( clamped<u8, 0, 9> value ) -> char
+inline constexpr auto to_digit( restricted<u8, 0, 9> value ) -> char
 {
     return static_cast<char>( value + '0' );
 }

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <bb/clamped.h>
 #include <bb/constexpr-utils.h>
+#include <bb/restricted.h>
 
 namespace bb
 {
@@ -10,7 +10,7 @@ template <class T, size N>
 struct array {
     static_assert( N > 0 );
 
-    using array_index = clamped<size, 0, N - 1>;
+    using array_index = restricted<size, 0, N - 1>;
 
     T data[N]{};
 

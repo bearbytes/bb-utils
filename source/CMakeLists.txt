@@ -13,10 +13,13 @@ target_sources( bb INTERFACE
     bb/basic-types.h
     bb/byte-utils.h
     bb/byte.h
-    bb/clamped.h
+    bb/callable.h
     bb/constexpr-utils.h
+    bb/duration.h
     bb/on-scope-exit.h
+    bb/restricted.h
     bb/span.h
+    bb/temperature.h
 )
 
 install( TARGETS bb
