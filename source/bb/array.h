@@ -44,11 +44,18 @@ struct array {
         }
     }
 
-    constexpr operator T *() noexcept { return data; }
-    constexpr operator T const *() const noexcept { return data; }
-
     constexpr auto operator[]( bb::size n ) const noexcept -> T const & { return data[index( n )]; }
     constexpr auto operator[]( bb::size n ) noexcept -> T & { return data[index( n )]; }
+
+    constexpr auto operator==( array const & other ) const noexcept( noexcept_eq_comparable<T>() ) -> bool
+    {
+        for ( bb::size idx = 0; idx < N; ++idx ) {
+            if ( data[idx] != other.data[idx] ) {
+                return false;
+            }
+        }
+        return true;
+    }
 };
 
 template <class T, typename... Ts>

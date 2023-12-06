@@ -29,4 +29,14 @@ auto main() -> int
     constexpr array c = zeroed_array();
     static_assert( c[0] == 0 and c.first() == 0 );
     static_assert( c[4] == 0 and c.last() == 0 );
+
+    constexpr array a1 = { 1, 2, 3, 4, 5 };
+    constexpr array a2 = { 1, 2, 3, 4, 5 };
+    constexpr array a3 = { 1, 2, 3 };
+    constexpr array a4 = { 3, 2, 1 };
+
+    static_assert( a1 == a2 );
+    // static_assert( a1 == a3 );
+    static_assert( !( a1 != a2 ) );
+    static_assert( a3 != a4 );
 }

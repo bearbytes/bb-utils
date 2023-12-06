@@ -57,7 +57,8 @@ template <class... Ts>
 requires ( sizeof...( Ts ) > 0 )
 inline consteval auto noexcept_eq_comparable() noexcept -> bool
 {
-    return ( noexcept( declval<pure<Ts> const>() == declval<pure<Ts> const>() ) && ... );
+    return ( noexcept( declval<pure<Ts> const>() == declval<pure<Ts> const>() ) && ... ) &&
+           ( noexcept( declval<pure<Ts> const>() != declval<pure<Ts> const>() ) && ... );
 }
 
 } // namespace bb

@@ -27,10 +27,10 @@ public:
     constexpr auto operator=( span const & ) noexcept -> span & = default;
     constexpr auto operator=( span && ) noexcept -> span & = default;
 
-    constexpr span( T * data, size length ) : data_{ data }, length_{ length } {}
+    constexpr span( T * data, size length ) noexcept : data_{ data }, length_{ length } {}
 
     template <size N>
-    constexpr span( T ( &array )[N] ) : span{ &( array[0] ), N }
+    constexpr span( T ( &array )[N] ) noexcept : span{ array, N }
     {}
 
     constexpr auto first() const noexcept -> T const &
@@ -113,9 +113,6 @@ public:
         return false;
     }
 
-    constexpr operator T const *() const noexcept { return data_; }
-    constexpr operator T *() noexcept { return data_; }
-
     constexpr auto operator[]( bb::size n ) const noexcept -> T const &
     {
         assert( n < length_ );
@@ -128,6 +125,23 @@ public:
         assert( data_ != nullptr );
         return data_[n];
     }
+
+    constexpr auto operator==( span const & other ) const noexcept( noexcept_eq_comparable<T>() ) -> bool
+    {
+        if ( size() != other.size() ) {
+            return false;
+        }
+
+        for ( bb::size idx = 0; idx < length_; ++idx ) {
+            if ( data_[idx] != other.data_[idx] ) {
+                return false;
+            }
+        }
+        return true;
+    }
 };
+
+// template <class T, size N>
+// span( T ( &a )[N] ) -> span<T>;
 
 } // namespace bb

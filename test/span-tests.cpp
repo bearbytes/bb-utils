@@ -25,4 +25,10 @@ auto main() -> int
     assert( s3.last() == 4 );
     s3.shrink_front( 2 );
     assert( s3.size() == 1 );
+
+    span s4 = a;
+    span s5 = a;
+    assert( s4 == s5 );
+    s5.shrink_front( 1 );
+    assert( s4 != s5 );
 }
