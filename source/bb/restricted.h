@@ -14,13 +14,12 @@ class restricted {
     T value_;
 
 public:
-    constexpr restricted( T value ) noexcept( is_noexcept_copy_constructible<T>() ) :
-    value_{ value }
+    constexpr restricted( T value ) noexcept( noexcept_copy_constructible<T>() ) : value_{ value }
     {
         assert( value >= min and value <= max, "Value out of bounds" );
     }
 
-    constexpr operator T() const noexcept( is_noexcept_copy_constructible<T>() ) { return value_; }
+    constexpr operator T() const noexcept( noexcept_copy_constructible<T>() ) { return value_; }
 };
 
 } // namespace bb

@@ -27,7 +27,7 @@ struct array {
 
     [[nodiscard]] constexpr auto size() const noexcept -> bb::size { return N; }
 
-    constexpr auto contains( T const & element ) const noexcept( is_noexcept_eq_comparable<T>() ) -> bool
+    constexpr auto contains( T const & element ) const noexcept( noexcept_eq_comparable<T>() ) -> bool
     {
         for ( T const & item : *this ) {
             if ( item == element ) {
@@ -37,7 +37,7 @@ struct array {
         return false;
     }
 
-    constexpr auto fill( T const & value ) noexcept( is_noexcept_copy_assignable<T>() ) -> void
+    constexpr auto fill( T const & value ) noexcept( noexcept_copy_assignable<T>() ) -> void
     {
         for ( T & item : *this ) {
             item = value;

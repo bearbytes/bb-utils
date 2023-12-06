@@ -10,7 +10,7 @@ class on_scope_exit {
     F action_;
 
 public:
-    constexpr on_scope_exit( F action ) noexcept( is_noexcept_copy_constructible<F>() ) :
+    constexpr on_scope_exit( F action ) noexcept( noexcept_copy_constructible<F>() ) :
     action_{ action }
     {}
 

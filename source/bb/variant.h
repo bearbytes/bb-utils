@@ -52,7 +52,7 @@ requires ( sizeof...( Ts ) > 0 and sizeof...( Ts ) < u8_max and are_unique<Ts...
 class variant {
     static constexpr u8 invalid_variant_index = u8_max;
 
-    constexpr auto copy( variant const & other ) noexcept( are_noexcept_copy_constructible<Ts...>() ) -> void
+    constexpr auto copy( variant const & other ) noexcept( noexcept_copy_constructible<Ts...>() ) -> void
     {
         bool const _ [[maybe_unused]] =
         ( ( other.variant_index_ == detail::index_of<Ts, Ts...>() ? ( copy_construct<Ts>( other.as<Ts>() ), true ) : false ) ||
@@ -61,13 +61,13 @@ class variant {
 
     template <class T>
     requires ( is_one_of<T, Ts...> )
-    constexpr auto copy_construct( T const & t ) noexcept( is_noexcept_copy_constructible<T>() ) -> void
+    constexpr auto copy_construct( T const & t ) noexcept( noexcept_copy_constructible<T>() ) -> void
     {
         new ( &placeholder_ ) T{ t };
         variant_index_ = detail::index_of<T, Ts...>();
     }
 
-    constexpr auto move( variant && other ) noexcept( are_noexcept_move_constructible<Ts...>() ) -> void
+    constexpr auto move( variant && other ) noexcept( noexcept_move_constructible<Ts...>() ) -> void
     {
         bool const _ [[maybe_unused]] =
         ( ( other.variant_index_ == detail::index_of<Ts, Ts...>()
@@ -78,13 +78,13 @@ class variant {
 
     template <class T>
     requires ( is_one_of<T, Ts...> )
-    constexpr auto move_construct( T && t ) noexcept( is_noexcept_move_constructible<T>() ) -> void
+    constexpr auto move_construct( T && t ) noexcept( noexcept_move_constructible<T>() ) -> void
     {
         new ( &placeholder_ ) T{ as_movable( t ) };
         variant_index_ = detail::index_of<T, Ts...>();
     }
 
-    constexpr auto destroy() noexcept( are_noexcept_destructible<Ts...>() ) -> void
+    constexpr auto destroy() noexcept( noexcept_destructible<Ts...>() ) -> void
     {
         bool const _ [[maybe_unused]] =
         ( ( variant_index_ == detail::index_of<Ts, Ts...>() ? ( destroy_type<Ts>(), true ) : false ) || ... );
@@ -93,7 +93,7 @@ class variant {
 
     template <class T>
     requires ( is_one_of<T, Ts...> )
-    constexpr auto destroy_type() noexcept( is_noexcept_destructible<T>() ) -> void
+    constexpr auto destroy_type() noexcept( noexcept_destructible<T>() ) -> void
     {
         reinterpret_cast<T *>( &placeholder_ )->~T();
     }
@@ -104,14 +104,14 @@ class variant {
 public:
     constexpr variant() noexcept = default;
 
-    constexpr variant( variant const & other ) noexcept( are_noexcept_copy_constructible<Ts...>() )
+    constexpr variant( variant const & other ) noexcept( noexcept_copy_constructible<Ts...>() )
     {
         if ( other.is_valid() ) {
             copy( other );
         }
     }
 
-    constexpr variant( variant && other ) noexcept( are_noexcept_move_assignable<Ts...>() )
+    constexpr variant( variant && other ) noexcept( noexcept_move_assignable<Ts...>() )
     {
         if ( other.is_valid() ) {
             move( other );
@@ -120,19 +120,19 @@ public:
 
     template <class T>
     requires ( is_one_of<T, Ts...> )
-    constexpr variant( T const & t ) noexcept( is_noexcept_copy_constructible<T>() )
+    constexpr variant( T const & t ) noexcept( noexcept_copy_constructible<T>() )
     {
         copy_construct( t );
     }
 
     template <class T>
     requires ( is_one_of<T, Ts...> )
-    constexpr variant( T && t ) noexcept( is_noexcept_move_constructible<T>() )
+    constexpr variant( T && t ) noexcept( noexcept_move_constructible<T>() )
     {
         move_construct( as_movable( t ) );
     }
 
-    constexpr ~variant() noexcept( are_noexcept_destructible<Ts...>() )
+    constexpr ~variant() noexcept( noexcept_destructible<Ts...>() )
     {
         if ( is_valid() ) {
             destroy();
@@ -140,7 +140,7 @@ public:
     }
 
     auto operator=( variant const & other ) noexcept(
-    are_noexcept_destructible<Ts...>() && are_noexcept_copy_constructible<Ts...>() ) -> variant &
+    noexcept_destructible<Ts...>() && noexcept_copy_constructible<Ts...>() ) -> variant &
     {
         if ( this == &other ) {
             return *this;
@@ -159,7 +159,7 @@ public:
         return *this;
     }
 
-    constexpr auto operator=( variant && other ) noexcept( are_noexcept_move_assignable<Ts...>() ) -> variant &
+    constexpr auto operator=( variant && other ) noexcept( noexcept_move_assignable<Ts...>() ) -> variant &
     {
         if ( this == &other ) {
             return *this;
@@ -181,7 +181,7 @@ public:
     template <class T>
     requires ( is_one_of<T, Ts...> )
     constexpr auto operator=( T const & value ) noexcept(
-    are_noexcept_destructible<Ts...>() and is_noexcept_copy_constructible<T>() ) -> variant &
+    noexcept_destructible<Ts...>() and noexcept_copy_constructible<T>() ) -> variant &
     {
         if ( is_valid() ) {
             destroy();
@@ -193,7 +193,7 @@ public:
     template <class T>
     requires ( is_one_of<T, Ts...> )
     constexpr auto operator=( T && value ) noexcept(
-    are_noexcept_destructible<Ts...>() and is_noexcept_move_constructible<T>() ) -> variant &
+    noexcept_destructible<Ts...>() and noexcept_move_constructible<T>() ) -> variant &
     {
         if ( is_valid() ) {
             destroy();

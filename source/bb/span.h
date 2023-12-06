@@ -64,7 +64,7 @@ public:
     [[nodiscard]] constexpr auto size() const noexcept -> bb::size { return length_; }
     [[nodiscard]] constexpr auto is_empty() const noexcept -> bool { return length_ == 0; }
 
-    constexpr auto take_first() noexcept( is_noexcept_copy_constructible<T>() ) -> T
+    constexpr auto take_first() noexcept( noexcept_copy_constructible<T>() ) -> T
     {
         assert( is_not_empty() );
         T & tmp = first();
@@ -73,7 +73,7 @@ public:
         return tmp;
     }
 
-    constexpr auto take_last() noexcept( is_noexcept_copy_constructible<T>() ) -> T
+    constexpr auto take_last() noexcept( noexcept_copy_constructible<T>() ) -> T
     {
         assert( is_not_empty() );
         T & tmp = last();
@@ -103,7 +103,7 @@ public:
         }
     }
 
-    constexpr auto contains( T const & element ) const noexcept( is_noexcept_eq_comparable<T>() ) -> bool
+    constexpr auto contains( T const & element ) const noexcept( noexcept_eq_comparable<T>() ) -> bool
     {
         for ( T const & item : *this ) {
             if ( item == element ) {
