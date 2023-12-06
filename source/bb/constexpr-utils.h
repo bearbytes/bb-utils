@@ -1,43 +1,10 @@
 #pragma once
 
 #include <bb/basic-types.h>
+#include <bb/type-utils.h>
 
 namespace bb
 {
-
-template <class T>
-struct remove_const {
-    using type = T;
-};
-
-template <class T>
-struct remove_const<T const> {
-    using type = T;
-};
-
-template <class T>
-using without_const = typename remove_const<T>::type;
-
-template <class T>
-struct remove_reference {
-    using type = T;
-};
-
-template <class T>
-struct remove_reference<T &> {
-    using type = T;
-};
-
-template <class T>
-struct remove_reference<T &&> {
-    using type = T;
-};
-
-template <class T>
-using without_reference = remove_reference<T>::type;
-
-template <class T>
-using pure = without_const<without_reference<T>>;
 
 template <class T>
 inline constexpr auto as_movable( T && v ) noexcept -> without_reference<T> &&
@@ -60,9 +27,8 @@ inline constexpr auto exchange( T & t, U && u ) -> T
 }
 
 template <class T>
-inline constexpr auto declval() noexcept -> T &
+inline consteval auto declval() noexcept -> T &
 {
-    // declval can only be used in non-evaluated context
     static_assert( false );
 }
 

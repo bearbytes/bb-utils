@@ -7,21 +7,6 @@
 namespace bb
 {
 
-template <class T, class U>
-constexpr bool is_same = false;
-
-template <class T>
-constexpr bool is_same<T, T> = true;
-
-template <class T, class... Ts>
-constexpr bool is_one_of = ( is_same<T, Ts> || ... );
-
-template <class T, class... Ts>
-constexpr bool are_types_unique = !is_one_of<T, Ts...> && are_types_unique<Ts...>;
-
-template <class T>
-constexpr bool are_types_unique<T> = true;
-
 template <class... Ts>
 requires ( sizeof...( Ts ) > 0 )
 consteval auto max_size() -> size
@@ -57,7 +42,7 @@ template <u8 I, class... Ts>
 using type_of_index = index_to_type<I, Ts...>::type;
 
 template <class... Ts>
-requires ( sizeof...( Ts ) > 0 and sizeof...( Ts ) < u8_max and are_types_unique<Ts...> )
+requires ( sizeof...( Ts ) > 0 and sizeof...( Ts ) < u8_max and are_unique<Ts...> )
 class variant {
     static constexpr u8 invalid_variant_index = u8_max;
 
