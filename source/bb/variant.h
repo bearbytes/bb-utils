@@ -202,6 +202,25 @@ public:
         return *this;
     }
 
+    template <class T>
+    requires ( is_one_of<T, Ts...> )
+    [[nodiscard]] constexpr auto operator==( T const & value ) const
+    noexcept( noexcept_eq_comparable<T>() ) -> bool
+    {
+        if ( !is<T>() ) {
+            return false;
+        }
+        return as<T>() == value;
+    }
+
+    [[nodiscard]] constexpr auto operator==( variant const & other ) const
+    noexcept( noexcept_eq_comparable<Ts...>() ) -> bool
+    {
+        return variant_index_ == other.variant_index_ and
+               ( variant_index_ == invalid_variant_index or
+                 ( ( variant_index_ == detail::index_of<Ts, Ts...>() ? as<Ts>() == other.as<Ts>() : false ) or ... ) );
+    }
+
     [[nodiscard]] constexpr auto is_valid() const noexcept -> bool
     {
         return variant_index_ != invalid_variant_index;

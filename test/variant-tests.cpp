@@ -56,4 +56,14 @@ auto main() -> int
     assert( !v6.is_valid() );
     v6 = as_movable( v5 );
     assert( !v5.is_valid() );
+
+    variant<bool, i32, f64> v7 = 10;
+    variant<bool, i32, f64> v8 = 10;
+    assert( v7 == v8 );
+    v8 = 15;
+    assert( v7 != v8 );
+    v8 = 2.0;
+    assert( v7 != v8 );
+    v7 = v8 = {};
+    assert( v7 == v8 );
 }
