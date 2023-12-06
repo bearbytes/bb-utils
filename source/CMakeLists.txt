@@ -17,10 +17,12 @@ target_sources( bb INTERFACE
     bb/callable.h
     bb/constexpr-utils.h
     bb/duration.h
+    bb/new.h
     bb/on-scope-exit.h
     bb/restricted.h
     bb/span.h
     bb/temperature.h
+    bb/variant.h
 )
 
 install( TARGETS bb
