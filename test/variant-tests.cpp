@@ -30,4 +30,30 @@ auto main() -> int
     assert( v4.id() == 1 );
     assert( v4.is<double>() );
     assert( v4.as<double>() == 2.0 );
+
+    variant<bool, char> v5{};
+    assert( !v5.is_valid() );
+    v5 = false;
+    assert( v5.is_valid() );
+    assert( v5.is<bool>() );
+    assert( !v5.as<bool>() );
+    v5 = 'a';
+    assert( v5.is_valid() );
+    assert( v5.is<char>() );
+    assert( v5.as<char>() == 'a' );
+
+    variant v6 = v5;
+    assert( v6.is_valid() );
+    assert( v6.is<char>() );
+    assert( v6.as<char>() == 'a' );
+
+    v5 = v6;
+    assert( v5.is_valid() );
+    assert( v5.is<char>() );
+    assert( v5.as<char>() == 'a' );
+
+    v6 = variant<bool, char>{};
+    assert( !v6.is_valid() );
+    v6 = as_movable( v5 );
+    assert( !v5.is_valid() );
 }

@@ -18,6 +18,12 @@ inline constexpr auto as_forwarding( without_reference<T> & v ) noexcept -> T &&
     return static_cast<T &&>( v );
 }
 
+template <class T>
+inline constexpr auto as_forwarding( without_reference<T> && v ) noexcept -> T &&
+{
+    return static_cast<T &&>( v );
+}
+
 template <class T, class U>
 inline constexpr auto exchange( T & t, U && u ) -> T
 {
