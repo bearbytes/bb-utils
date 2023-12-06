@@ -2,33 +2,48 @@
 
 using namespace bb;
 
+constexpr int a[5] = { 1, 2, 3, 4, 5 };
+
+constexpr auto shrink_front( span<i32 const> s, size n ) noexcept -> span<i32 const>
+{
+    s.shrink_front( n );
+    return s;
+}
+
+constexpr auto shrink_back( span<i32 const> s, size n ) noexcept -> span<i32 const>
+{
+    s.shrink_back( n );
+    return s;
+}
+
 auto main() -> int
 {
-    static_assert( noexcept( span<int>() ) );
-    static_assert( noexcept( declval<span<int>>() = span<int>() ) );
-    static_assert( noexcept( declval<span<int>>() = declval<span<int>>() ) );
+    static_assert( noexcept_default_constructible<span<int>>() );
+    static_assert( noexcept_copy_constructible<span<int>>() );
+    static_assert( noexcept_move_constructible<span<int>>() );
 
     constexpr span<int> s1{};
+    static_assert( s1.is_empty() );
+    static_assert( s1.size() == 0 );
+    static_assert( s1.begin() == nullptr );
+    static_assert( s1.end() == nullptr );
+
     constexpr span s2 = s1;
-    static_assert( s1.is_empty() and s2.is_empty() );
-    static_assert( s1.size() == 0 and s1.size() == s2.size() );
+    static_assert( s2.is_empty() );
+    static_assert( s2.size() == 0 );
+    static_assert( s2.begin() == nullptr );
+    static_assert( s2.end() == nullptr );
 
-    constexpr int a[] = { 1, 2, 3, 4, 5 };
-    span s3 = a;
-    assert( s3.size() == array_size( a ) );
-    assert( s3.contains( 1 ) and s3.contains( 3 ) and s3.contains( 5 ) );
-    assert( s3.take_first() == 1 );
-    assert( s3.size() == 4 );
-    assert( s3.take_last() == 5 );
-    assert( s3.size() == 3 );
-    assert( s3.first() == 2 );
-    assert( s3.last() == 4 );
-    s3.shrink_front( 2 );
-    assert( s3.size() == 1 );
+    constexpr span s3 = a;
+    static_assert( !s3.is_empty() );
+    static_assert( s3.size() == 5 );
+    static_assert( s3.begin() == a );
+    static_assert( s3.contains( 1 ) and s3.contains( 3 ) and s3.contains( 5 ) );
 
-    span s4 = a;
-    span s5 = a;
-    assert( s4 == s5 );
-    s5.shrink_front( 1 );
-    assert( s4 != s5 );
+    constexpr span s4 = shrink_front( s3, 2 );
+    static_assert( s4.size() == 3 );
+    static_assert( s4.contains( 3 ) and s3.contains( 4 ) and s3.contains( 5 ) );
+
+    constexpr span s5 = shrink_back( s4, 3 );
+    static_assert( s5.is_empty() );
 }

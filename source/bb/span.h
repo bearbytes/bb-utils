@@ -141,7 +141,4 @@ public:
     }
 };
 
-// template <class T, size N>
-// span( T ( &a )[N] ) -> span<T>;
-
 } // namespace bb
