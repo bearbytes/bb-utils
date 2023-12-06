@@ -32,4 +32,10 @@ inline constexpr u64 u64_max = 0xFF'FF'FF'FF'FF'FF'FF'FF; // 18'446'744'073'709'
 inline constexpr i64 i64_min = as_i64( 0x80'00'00'00'00'00'00'00 ); // -9'223'372'036'854'775'808
 inline constexpr i64 i64_max = 0x7F'FF'FF'FF'FF'FF'FF'FF; // 9'223'372'036'854'775'807
 
+inline constexpr f32 f32_nan = as_f32( __builtin_nan( "0" ) );
+inline constexpr f32 f32_inf = as_f32( __builtin_huge_val() );
+
+inline constexpr f64 f64_nan = __builtin_nan( "0" );
+inline constexpr f64 f64_inf = __builtin_huge_val();
+
 } // namespace bb

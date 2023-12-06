@@ -58,4 +58,12 @@ auto main() -> int
     static_assert( as_i16( i32_min ) == as_i16( u16_min ) );
     static_assert( as_i16( i64_min ) == as_i16( u16_min ) );
     static_assert( as_i32( i64_min ) == as_i32( u32_min ) );
+
+    static_assert( f32_nan != f32_nan );
+    static_assert( f32_nan != f32_inf );
+    static_assert( f32_inf == f32_inf );
+
+    static_assert( f64_nan != f64_nan );
+    static_assert( f64_nan != f64_inf );
+    static_assert( f64_inf == f64_inf );
 }
