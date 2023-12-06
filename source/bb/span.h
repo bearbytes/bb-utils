@@ -2,14 +2,15 @@
 
 #include <bb/assert.h>
 #include <bb/constexpr-utils.h>
+#include <bb/noexcept-utils.h>
 
 namespace bb
 {
 
 template <class T>
 class span {
-    T * data_{};
-    size length_{};
+    T * data_{ nullptr };
+    size length_{ 0 };
 
     [[nodiscard]] constexpr auto is_not_empty() const noexcept -> bool
     {

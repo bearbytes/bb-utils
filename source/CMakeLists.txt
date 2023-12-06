@@ -18,10 +18,12 @@ target_sources( bb INTERFACE
     bb/constexpr-utils.h
     bb/duration.h
     bb/new.h
+    bb/noexcept-utils.h
     bb/on-scope-exit.h
     bb/restricted.h
     bb/span.h
     bb/temperature.h
+    bb/type-utils.h
     bb/variant.h
 )
 

@@ -34,7 +34,10 @@ struct remove_reference<T &&> {
 };
 
 template <class T>
-using without_reference = typename remove_reference<T>::type;
+using without_reference = remove_reference<T>::type;
+
+template <class T>
+using pure = without_const<without_reference<T>>;
 
 template <class T>
 inline constexpr auto as_movable( T && v ) noexcept -> without_reference<T> &&
@@ -61,24 +64,6 @@ inline constexpr auto declval() noexcept -> T &
 {
     // declval can only be used in non-evaluated context
     static_assert( false );
-}
-
-template <class T>
-inline constexpr auto is_noexcept_copy_constructible() noexcept -> bool
-{
-    return noexcept( T( declval<T const &>() ) );
-}
-
-template <class T>
-inline constexpr auto is_noexcept_copy_assignable() noexcept -> bool
-{
-    return noexcept( declval<without_const<T> &>() = declval<T const &>() );
-}
-
-template <class T>
-inline constexpr auto is_noexcept_eq_comparable() noexcept -> bool
-{
-    return noexcept( declval<T>() == declval<T>() );
 }
 
 template <class T, size N>

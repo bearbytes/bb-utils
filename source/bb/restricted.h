@@ -2,6 +2,7 @@
 
 #include <bb/assert.h>
 #include <bb/constexpr-utils.h>
+#include <bb/noexcept-utils.h>
 
 namespace bb
 {

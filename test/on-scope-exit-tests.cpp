@@ -1,4 +1,5 @@
 #include <bb/assert.h>
+#include <bb/noexcept-utils.h>
 #include <bb/on-scope-exit.h>
 
 using namespace bb;
