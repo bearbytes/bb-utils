@@ -20,6 +20,7 @@ target_sources( bb INTERFACE
     bb/new.h
     bb/noexcept-utils.h
     bb/on-scope-exit.h
+    bb/optional.h
     bb/restricted.h
     bb/span.h
     bb/temperature.h
