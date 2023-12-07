@@ -9,14 +9,14 @@ template <class... Ts>
 requires ( sizeof...( Ts ) > 0 )
 inline consteval auto noexcept_default_constructible() noexcept -> bool
 {
-    return ( noexcept( pure<Ts>{} ) && ... );
+    return ( noexcept( pure<Ts>{} ) and ... );
 }
 
 template <class... Ts>
 requires ( sizeof...( Ts ) > 0 )
 inline consteval auto noexcept_destructible() noexcept -> bool
 {
-    return ( noexcept( declval<pure<Ts> &>().~pure<Ts>() ) && ... );
+    return ( noexcept( declval<pure<Ts> &>().~pure<Ts>() ) and ... );
 }
 
 template <class T, class... Args>
@@ -29,36 +29,36 @@ template <class... Ts>
 requires ( sizeof...( Ts ) > 0 )
 inline consteval auto noexcept_copy_constructible() noexcept -> bool
 {
-    return ( noexcept( pure<Ts>( declval<pure<Ts> const &>() ) ) && ... );
+    return ( noexcept( pure<Ts>( declval<pure<Ts> const &>() ) ) and ... );
 }
 
 template <class... Ts>
 requires ( sizeof...( Ts ) > 0 )
 inline consteval auto noexcept_move_constructible() noexcept -> bool
 {
-    return ( noexcept( pure<Ts>( as_movable( declval<pure<Ts>>() ) ) ) && ... );
+    return ( noexcept( pure<Ts>( as_movable( declval<pure<Ts>>() ) ) ) and ... );
 }
 
 template <class... Ts>
 requires ( sizeof...( Ts ) > 0 )
 inline consteval auto noexcept_copy_assignable() noexcept -> bool
 {
-    return ( noexcept( declval<pure<Ts> &>() = declval<pure<Ts> const &>() ) && ... );
+    return ( noexcept( declval<pure<Ts> &>() = declval<pure<Ts> const &>() ) and ... );
 }
 
 template <class... Ts>
 requires ( sizeof...( Ts ) > 0 )
 inline consteval auto noexcept_move_assignable() noexcept -> bool
 {
-    return ( noexcept( declval<pure<Ts> &>() = as_movable( declval<pure<Ts>>() ) ) && ... );
+    return ( noexcept( declval<pure<Ts> &>() = as_movable( declval<pure<Ts>>() ) ) and ... );
 }
 
 template <class... Ts>
 requires ( sizeof...( Ts ) > 0 )
 inline consteval auto noexcept_eq_comparable() noexcept -> bool
 {
-    return ( noexcept( declval<pure<Ts> const>() == declval<pure<Ts> const>() ) && ... ) &&
-           ( noexcept( declval<pure<Ts> const>() != declval<pure<Ts> const>() ) && ... );
+    return ( noexcept( declval<pure<Ts> const>() == declval<pure<Ts> const>() ) and ... ) and
+           ( noexcept( declval<pure<Ts> const>() != declval<pure<Ts> const>() ) and ... );
 }
 
 } // namespace bb

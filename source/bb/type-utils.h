@@ -53,12 +53,12 @@ constexpr bool is_same<T, T> = true;
 
 template <class T, class... Ts>
 requires ( sizeof...( Ts ) > 0 )
-constexpr bool is_one_of = ( is_same<T, Ts> || ... );
+constexpr bool is_one_of = ( is_same<T, Ts> or ... );
 
 //
 
 template <class T, class... Ts>
-constexpr bool are_unique = !is_one_of<T, Ts...> && are_unique<Ts...>;
+constexpr bool are_unique = !is_one_of<T, Ts...> and are_unique<Ts...>;
 
 template <class T>
 constexpr bool are_unique<T> = true;

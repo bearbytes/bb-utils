@@ -44,7 +44,7 @@ auto decode( span<byte const> bytes ) -> variant<Frames...>
 
     variant<Frames...> result = invalid_variant;
     bool const _ [[maybe_unused]] =
-    ( ( id == Frames::id ? ( result = Frames{ as_u8( bytes.take_first() ) }, true ) : false ) || ... );
+    ( ( id == Frames::id ? ( result = Frames{ as_u8( bytes.take_first() ) }, true ) : false ) or ... );
 
     return result;
 }
