@@ -11,6 +11,7 @@ set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++ -fno-rtti -fno-exception
 set( CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -stdlib=libc++ -lc++abi" )
 
 add_subdirectory( source )
+add_subdirectory( examples )
 
 enable_testing()
 add_subdirectory( test )
