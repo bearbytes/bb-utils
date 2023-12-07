@@ -50,9 +50,9 @@ auto decode( span<byte const> bytes ) -> variant<Frames...>
 }
 
 template <class Frame>
-auto print( Frame const & frame ) noexcept -> void
+auto print_magic( Frame const & frame, char const * suffix = "" ) noexcept -> void
 {
-    std::println( "Magic value: {}", frame.magic_value );
+    std::println( "magic value: {} {}", frame.magic_value, suffix );
 }
 
 auto main() -> int
@@ -60,17 +60,16 @@ auto main() -> int
     auto const bytes = read_bytes();
     std::println( "Read {} bytes", bytes.size() );
 
-    auto const maybe_frame = decode<frame_a, frame_b, frame_c>( bytes );
+    auto maybe_frame = decode<frame_a, frame_b, frame_c>( bytes );
     if ( maybe_frame.is_valid() ) {
         if ( maybe_frame.is<frame_a>() ) {
             std::print( "Frame a, " );
-            print( maybe_frame.as<frame_a>() );
         } else if ( maybe_frame.is<frame_b>() ) {
             std::print( "Frame b, " );
-            print( maybe_frame.as<frame_b>() );
         } else if ( maybe_frame.is<frame_c>() ) {
             std::print( "Frame c, " );
-            print( maybe_frame.as<frame_c>() );
         }
+
+        maybe_frame.apply( []( auto const & frame ) { print_magic( frame, "millions" ); } );
     }
 }

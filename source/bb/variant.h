@@ -23,10 +23,9 @@ template <class T, class... Ts>
 requires ( is_one_of<T, Ts...> )
 inline consteval auto index_of() noexcept -> u8
 {
-    u8 result = u8_max;
-    u8 x = 0;
-    bool const _ [[maybe_unused]] = ( ( is_same<T, Ts> ? ( result = x, true ) : ( x++, false ) ) || ... );
-    return result;
+    u8 idx = 0;
+    bool const _ [[maybe_unused]] = ( ( is_same<T, Ts> ? true : ( ++idx, false ) ) or ... );
+    return idx;
 }
 
 template <u8 I, class... Ts>
@@ -58,7 +57,7 @@ class variant {
     constexpr auto copy( variant const & other ) noexcept( noexcept_copy_constructible<Ts...>() ) -> void
     {
         bool const _ [[maybe_unused]] =
-        ( ( other.variant_index_ == detail::index_of<Ts, Ts...>() ? ( copy_construct<Ts>( other.as<Ts>() ), true ) : false ) ||
+        ( ( other.variant_index_ == detail::index_of<Ts, Ts...>() ? ( copy_construct<Ts>( other.as<Ts>() ), true ) : false ) or
           ... );
     }
 
@@ -75,7 +74,7 @@ class variant {
         bool const _ [[maybe_unused]] =
         ( ( other.variant_index_ == detail::index_of<Ts, Ts...>()
             ? ( move_construct<Ts>( as_movable( other.as<Ts>() ) ), other.variant_index_ = invalid_variant_index, true )
-            : false ) ||
+            : false ) or
           ... );
     }
 
@@ -90,7 +89,7 @@ class variant {
     constexpr auto destroy() noexcept( noexcept_destructible<Ts...>() ) -> void
     {
         bool const _ [[maybe_unused]] =
-        ( ( variant_index_ == detail::index_of<Ts, Ts...>() ? ( destroy_type<Ts>(), true ) : false ) || ... );
+        ( ( variant_index_ == detail::index_of<Ts, Ts...>() ? ( destroy_type<Ts>(), true ) : false ) or ... );
         variant_index_ = invalid_variant_index;
     }
 
@@ -145,7 +144,7 @@ public:
     }
 
     auto operator=( variant const & other ) noexcept(
-    noexcept_destructible<Ts...>() && noexcept_copy_constructible<Ts...>() ) -> variant &
+    noexcept_destructible<Ts...>() and noexcept_copy_constructible<Ts...>() ) -> variant &
     {
         if ( this == &other ) {
             return *this;
@@ -261,6 +260,28 @@ public:
         if ( is_valid() ) {
             destroy();
         }
+    }
+
+    template <class V, class... Args>
+    constexpr auto apply( V && visitor, Args &&... args ) const -> void
+    {
+        assert( is_valid() );
+        bool const _ [[maybe_unused]] =
+        ( ( variant_index_ == detail::index_of<Ts, Ts...>()
+            ? ( visitor( as<Ts>( as_forwarding<Args>( args )... ) ), true )
+            : false ) or
+          ... );
+    }
+
+    template <class V, class... Args>
+    constexpr auto apply( V && visitor, Args &&... args ) -> void
+    {
+        assert( is_valid() );
+        bool const _ [[maybe_unused]] =
+        ( ( variant_index_ == detail::index_of<Ts, Ts...>()
+            ? ( visitor( as<Ts>( as_forwarding<Args>( args )... ) ), true )
+            : false ) or
+          ... );
     }
 };
 
