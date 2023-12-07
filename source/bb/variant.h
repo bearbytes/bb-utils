@@ -47,6 +47,9 @@ using type_of_index = index_to_type<I, Ts...>::type;
 
 } // namespace detail
 
+inline constexpr struct invalid_variant_t {
+} invalid_variant;
+
 template <class... Ts>
 requires ( sizeof...( Ts ) > 0 and sizeof...( Ts ) < u8_max and are_unique<Ts...> )
 class variant {
@@ -104,6 +107,8 @@ class variant {
 public:
     constexpr variant() noexcept = default;
 
+    constexpr variant( invalid_variant_t /*v*/ ) noexcept {}
+
     constexpr variant( variant const & other ) noexcept( noexcept_copy_constructible<Ts...>() )
     {
         if ( other.is_valid() ) {
@@ -114,7 +119,7 @@ public:
     constexpr variant( variant && other ) noexcept( noexcept_move_assignable<Ts...>() )
     {
         if ( other.is_valid() ) {
-            move( other );
+            move( as_movable( other ) );
         }
     }
 
