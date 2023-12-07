@@ -5,7 +5,7 @@
 namespace bb
 {
 
-template <class T, size N>
+template <class T, size N, bool Decaying = false>
 struct array {
     static_assert( N > 0 );
 
@@ -46,6 +46,18 @@ struct array {
 
     constexpr auto operator[]( bb::size n ) const noexcept -> T const & { return data[index( n )]; }
     constexpr auto operator[]( bb::size n ) noexcept -> T & { return data[index( n )]; }
+
+    constexpr operator T *()
+    requires ( Decaying )
+    {
+        return data;
+    }
+
+    constexpr operator T const *() const
+    requires ( Decaying )
+    {
+        return data;
+    }
 
     constexpr auto operator==( array const & other ) const noexcept( noexcept_eq_comparable<T>() ) -> bool
     {

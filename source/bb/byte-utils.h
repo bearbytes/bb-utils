@@ -12,8 +12,8 @@ inline constexpr array<char const, 16> byte_chars = {
 inline constexpr array<char const, 16> byte_chars_upper = {
 '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
-using byte_bin_str = array<char const, 9>;
-using byte_hex_str = array<char const, 3>;
+using byte_bin_str = array<char const, 9, true>;
+using byte_hex_str = array<char const, 3, true>;
 
 inline constexpr auto to_digit( restricted<u8, 0, 9> value ) noexcept -> char
 {
