@@ -136,12 +136,7 @@ public:
         move_construct( as_movable( t ) );
     }
 
-    constexpr ~variant() noexcept( noexcept_destructible<Ts...>() )
-    {
-        if ( is_valid() ) {
-            destroy();
-        }
-    }
+    constexpr ~variant() noexcept( noexcept_destructible<Ts...>() ) { reset(); }
 
     auto operator=( variant const & other ) noexcept(
     noexcept_destructible<Ts...>() and noexcept_copy_constructible<Ts...>() ) -> variant &

@@ -1,5 +1,6 @@
 #include <bb/array.h>
-#include <bb/byte.h>
+#include <bb/byte-utils.h>
+#include <bb/callable.h>
 #include <bb/span.h>
 #include <bb/variant.h>
 
@@ -49,6 +50,15 @@ auto decode( span<byte const> bytes ) -> variant<Frames...>
     return result;
 }
 
+auto print_bytes( span<byte const> bytes ) -> void
+{
+    std::print( "bytes[{}] = ", bytes.size() );
+    for ( byte const b : bytes ) {
+        std::print( "{} ", as_hex_str( b ).data );
+    }
+    std::puts( "" );
+}
+
 template <class Frame>
 auto print_magic( Frame const & frame, char const * suffix = "" ) noexcept -> void
 {
@@ -57,8 +67,11 @@ auto print_magic( Frame const & frame, char const * suffix = "" ) noexcept -> vo
 
 auto main() -> int
 {
+    callable byte_printer = print_bytes;
+
     auto const bytes = read_bytes();
-    std::println( "Read {} bytes", bytes.size() );
+
+    byte_printer( bytes );
 
     auto maybe_frame = decode<frame_a, frame_b, frame_c>( bytes );
     if ( maybe_frame.is_valid() ) {
