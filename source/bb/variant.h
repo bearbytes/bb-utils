@@ -66,7 +66,7 @@ class variant {
     requires ( is_one_of<T, Ts...> )
     constexpr auto copy_construct( T const & t ) noexcept( noexcept_copy_constructible<T>() ) -> void
     {
-        new ( &placeholder_ ) T{ t };
+        new ( &placeholder_, custom_new ) T{ t };
         variant_index_ = detail::index_of<T, Ts...>();
     }
 
@@ -83,7 +83,7 @@ class variant {
     requires ( is_one_of<T, Ts...> )
     constexpr auto move_construct( T && t ) noexcept( noexcept_move_constructible<T>() ) -> void
     {
-        new ( &placeholder_ ) T{ as_movable( t ) };
+        new ( &placeholder_, custom_new ) T{ as_movable( t ) };
         variant_index_ = detail::index_of<T, Ts...>();
     }
 

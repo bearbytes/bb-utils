@@ -52,6 +52,7 @@ constexpr bool is_same<T, T> = true;
 //
 
 template <class T, class... Ts>
+requires ( sizeof...( Ts ) > 0 )
 constexpr bool is_one_of = ( is_same<T, Ts> || ... );
 
 //
