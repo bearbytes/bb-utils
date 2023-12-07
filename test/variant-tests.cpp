@@ -66,4 +66,9 @@ auto main() -> int
     assert( v7 != v8 );
     v7 = v8 = {};
     assert( v7 == v8 );
+
+    v8 = 3.14;
+    assert( v8.is<f64>() );
+    v8.reset();
+    assert( !v8.is_valid() );
 }

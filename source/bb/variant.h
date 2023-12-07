@@ -255,6 +255,13 @@ public:
         constexpr u8 index = detail::index_of<T, Ts...>();
         return *reinterpret_cast<detail::type_of_index<index, Ts...> const *>( placeholder_ );
     }
+
+    constexpr auto reset() noexcept( noexcept_destructible<Ts...>() ) -> void
+    {
+        if ( is_valid() ) {
+            destroy();
+        }
+    }
 };
 
 } // namespace bb

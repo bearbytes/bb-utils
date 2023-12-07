@@ -44,7 +44,7 @@ public:
 
     [[nodiscard]] constexpr auto has_value() const noexcept -> bool { return value_.is_valid(); }
 
-    constexpr auto reset() noexcept( noexcept_destructible<T>() ) -> void { value_ = {}; }
+    constexpr auto reset() noexcept( noexcept_destructible<T>() ) -> void { value_.reset(); }
 };
 
 template <class T>
