@@ -3,6 +3,7 @@
 #include <bb/callable.h>
 #include <bb/span.h>
 #include <bb/variant.h>
+#include <bb/version.h>
 
 #include <print>
 
@@ -67,11 +68,13 @@ auto print_magic( Frame const & frame, char const * suffix = "" ) noexcept -> vo
 
 auto main() -> int
 {
-    callable byte_printer = print_bytes;
+    std::println( "Decoder example with bb version {}", project_version );
 
     auto const bytes = read_bytes();
 
-    byte_printer( bytes );
+    callable byte_printer = print_bytes;
+    callable byte_printer_2 = as_movable( byte_printer );
+    byte_printer_2( bytes );
 
     auto maybe_frame = decode<frame_a, frame_b, frame_c>( bytes );
     if ( maybe_frame.is_valid() ) {

@@ -1,3 +1,5 @@
+configure_file( bb/version.h.in bb/version.h )
+
 add_library( bb INTERFACE )
 
 target_include_directories( bb INTERFACE
@@ -29,6 +31,15 @@ target_sources( bb INTERFACE
     bb/variant.h
 )
 
-install( TARGETS bb
-    FILE_SET HEADERS DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+include( GNUInstallDirs )
+
+install(
+    TARGETS bb
+    FILE_SET HEADERS
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
+
+install(
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/bb/version.h
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/bb
 )

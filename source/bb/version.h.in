@@ -1,0 +1,11 @@
+#pragma once
+
+namespace bb
+{
+
+inline constexpr char const * const project_version = "@PROJECT_VERSION@";
+inline constexpr int project_version_major = @PROJECT_VERSION_MAJOR@;
+inline constexpr int project_version_minor = @PROJECT_VERSION_MAJOR@;
+inline constexpr int project_version_patch = @PROJECT_VERSION_MAJOR@;
+
+}
