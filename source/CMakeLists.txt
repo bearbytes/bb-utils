@@ -15,6 +15,7 @@ target_sources( bb INTERFACE
     bb/byte-utils.h
     bb/byte.h
     bb/callable.h
+    bb/casting-utils.h
     bb/constexpr-utils.h
     bb/duration.h
     bb/new.h

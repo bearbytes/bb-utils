@@ -17,7 +17,7 @@ using byte_hex_str = array<char const, 3, true>;
 
 inline constexpr auto to_digit( restricted<u8, 0, 9> value ) noexcept -> char
 {
-    return static_cast<char>( value + '0' );
+    return as<char>( value + '0' );
 }
 
 inline constexpr auto as_binary_str( byte b ) noexcept -> byte_bin_str

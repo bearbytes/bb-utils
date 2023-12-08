@@ -10,7 +10,7 @@ auto main() -> int
     static_assert( !o1 );
 
     optional o2 = 10;
-    assert( static_cast<bool>( o2 ) );
+    assert( as<bool>( o2 ) );
     assert( o2.has_value() );
     assert( o2.value() == 10 );
 
