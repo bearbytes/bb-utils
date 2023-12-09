@@ -52,13 +52,13 @@ inline constexpr struct invalid_variant_t {
 template <class... Ts>
 requires ( sizeof...( Ts ) > 0 and sizeof...( Ts ) < u8_max and are_unique<Ts...> )
 class variant {
-    static constexpr u8 invalid_variant_index = u8_max;
+    static constexpr u8 invalid_index = u8_max;
 
     constexpr auto copy_construct( variant const & other ) noexcept( noexcept_copy_constructible<Ts...>() ) -> void
     {
         bool const _ [[maybe_unused]] =
-        ( ( other.variant_index_ == detail::index_of<Ts, Ts...>()
-            ? ( copy_construct<Ts>( other.as<Ts>(), other.variant_index_ ), true )
+        ( ( other.index_ == detail::index_of<Ts, Ts...>()
+            ? ( copy_construct<Ts>( other.as<Ts>(), other.index_ ), true )
             : false ) or
           ... );
     }
@@ -69,14 +69,14 @@ class variant {
     -> void
     {
         new ( &placeholder_, custom_new ) T{ t };
-        variant_index_ = type_index;
+        index_ = type_index;
     }
 
     constexpr auto copy_assign( variant const & other ) noexcept( noexcept_copy_assignable<Ts...>() ) -> void
     {
         bool const _ [[maybe_unused]] =
-        ( ( other.variant_index_ == detail::index_of<Ts, Ts...>()
-            ? ( copy_assign<Ts>( other.as<Ts>(), other.variant_index_ ), true )
+        ( ( other.index_ == detail::index_of<Ts, Ts...>()
+            ? ( copy_assign<Ts>( other.as<Ts>(), other.index_ ), true )
             : false ) or
           ... );
     }
@@ -86,19 +86,19 @@ class variant {
     constexpr auto copy_assign( T const & t, u8 type_index ) noexcept( noexcept_copy_assignable<T>() ) -> void
     {
         as<T>() = t;
-        variant_index_ = type_index;
+        index_ = type_index;
     }
 
     constexpr auto move_construct( variant && other ) noexcept( noexcept_move_constructible<Ts...>() ) -> void
     {
         bool const _ [[maybe_unused]] =
-        ( ( other.variant_index_ == detail::index_of<Ts, Ts...>()
-            ? ( move_construct<Ts>( as_movable( other.as<Ts>() ), other.variant_index_ ), true )
+        ( ( other.index_ == detail::index_of<Ts, Ts...>()
+            ? ( move_construct<Ts>( as_movable( other.as<Ts>() ), other.index_ ), true )
             : false ) or
           ... );
 
         // Invalidate other variant to make sure we don't try to call destructor twice.
-        other.variant_index_ = invalid_variant_index;
+        other.index_ = invalid_index;
     }
 
     template <class T>
@@ -106,19 +106,19 @@ class variant {
     constexpr auto move_construct( T && t, u8 type_index ) noexcept( noexcept_move_constructible<T>() ) -> void
     {
         new ( &placeholder_, custom_new ) T{ as_forwarding<T>( t ) };
-        variant_index_ = type_index;
+        index_ = type_index;
     }
 
     constexpr auto move_assign( variant && other ) noexcept( noexcept_move_assignable<Ts...>() ) -> void
     {
         bool const _ [[maybe_unused]] =
-        ( ( other.variant_index_ == detail::index_of<Ts, Ts...>()
-            ? ( move_assign<Ts>( as_movable( other.as<Ts>() ), other.variant_index_ ), true )
+        ( ( other.index_ == detail::index_of<Ts, Ts...>()
+            ? ( move_assign<Ts>( as_movable( other.as<Ts>() ), other.index_ ), true )
             : false ) or
           ... );
 
         // Invalidate other variant to make sure we don't try to call destructor twice.
-        other.variant_index_ = invalid_variant_index;
+        other.index_ = invalid_index;
     }
 
     template <class T>
@@ -126,13 +126,13 @@ class variant {
     constexpr auto move_assign( T && t, u8 type_index ) noexcept( noexcept_move_assignable<T>() ) -> void
     {
         as<T>() = as_forwarding<T>( t );
-        variant_index_ = type_index;
+        index_ = type_index;
     }
 
     constexpr auto destroy() noexcept( noexcept_destructible<Ts...>() ) -> void
     {
         bool const _ [[maybe_unused]] =
-        ( ( variant_index_ == detail::index_of<Ts, Ts...>() ? ( destroy<Ts>(), true ) : false ) or ... );
+        ( ( index_ == detail::index_of<Ts, Ts...>() ? ( destroy<Ts>(), true ) : false ) or ... );
     }
 
     template <class T>
@@ -140,10 +140,10 @@ class variant {
     constexpr auto destroy() noexcept( noexcept_destructible<T>() ) -> void
     {
         reinterpret_cast<T *>( &placeholder_ )->~T();
-        variant_index_ = invalid_variant_index;
+        index_ = invalid_index;
     }
 
-    u8 variant_index_{ invalid_variant_index };
+    u8 index_{ invalid_index };
     u8 placeholder_[detail::max_size<Ts...>()]{};
 
 public:
@@ -152,7 +152,7 @@ public:
     constexpr variant( invalid_variant_t /*v*/ ) noexcept {}
 
     constexpr variant( variant const & other ) noexcept( noexcept_copy_constructible<Ts...>() ) :
-    variant_index_{ other.variant_index_ }
+    index_{ other.index_ }
     {
         if ( other.is_valid() ) {
             copy_construct( other );
@@ -160,7 +160,7 @@ public:
     }
 
     constexpr variant( variant && other ) noexcept( noexcept_move_constructible<Ts...>() ) :
-    variant_index_{ other.variant_index_ }
+    index_{ other.index_ }
     {
         if ( other.is_valid() ) {
             move_construct( as_movable( other ) );
@@ -194,10 +194,8 @@ public:
         if ( is_valid() ) {
             // Copy-assign if indices match, destroy this data otherwise
             bool const _ [[maybe_unused]] =
-            ( ( variant_index_ == detail::index_of<Ts, Ts...>()
-                ? ( ( variant_index_ == other.variant_index_ ? copy_assign<Ts>( other.as<Ts>(), variant_index_ )
-                                                             : destroy<Ts>() ),
-                    true )
+            ( ( index_ == detail::index_of<Ts, Ts...>()
+                ? ( ( index_ == other.index_ ? copy_assign<Ts>( other.as<Ts>(), index_ ) : destroy<Ts>() ), true )
                 : false ) or
               ... );
         }
@@ -220,11 +218,10 @@ public:
         if ( is_valid() ) {
             // Move-assign if indices match, destroy this data otherwise
             bool const _ [[maybe_unused]] =
-            ( ( variant_index_ == detail::index_of<Ts, Ts...>()
-                ? ( ( variant_index_ == other.variant_index_
-                      ? ( move_assign<Ts>( as_movable( other.as<Ts>() ), variant_index_ ),
-                          bb::as<void>( other.variant_index_ = invalid_variant_index ) )
-                      : destroy<Ts>() ),
+            ( ( index_ == detail::index_of<Ts, Ts...>()
+                ? ( ( index_ == other.index_ ? ( move_assign<Ts>( as_movable( other.as<Ts>() ), index_ ),
+                                                 bb::as<void>( other.index_ = invalid_index ) )
+                                             : destroy<Ts>() ),
                     true )
                 : false ) or
               ... );
@@ -244,7 +241,7 @@ public:
     -> variant &
     {
         constexpr u8 index = detail::index_of<T, Ts...>();
-        if ( index == variant_index_ ) {
+        if ( index == index_ ) {
             copy_assign<T>( t, index );
         } else {
             reset();
@@ -260,7 +257,7 @@ public:
     -> variant &
     {
         constexpr u8 index = detail::index_of<T, Ts...>();
-        if ( index == variant_index_ ) {
+        if ( index == index_ ) {
             move_assign<T>( as_forwarding<T>( t ), index );
         } else {
             reset();
@@ -283,23 +280,23 @@ public:
     [[nodiscard]] constexpr auto operator==( variant const & other ) const
     noexcept( noexcept_eq_comparable<Ts...>() ) -> bool
     {
-        return variant_index_ == other.variant_index_ and
-               ( variant_index_ == invalid_variant_index or
-                 ( ( variant_index_ == detail::index_of<Ts, Ts...>() ? as<Ts>() == other.as<Ts>() : false ) or ... ) );
+        return index_ == other.index_ and
+               ( index_ == invalid_index or
+                 ( ( index_ == detail::index_of<Ts, Ts...>() ? as<Ts>() == other.as<Ts>() : false ) or ... ) );
     }
 
     [[nodiscard]] constexpr auto is_valid() const noexcept -> bool
     {
-        return variant_index_ != invalid_variant_index;
+        return index_ != invalid_index;
     }
 
-    [[nodiscard]] constexpr auto id() const noexcept -> u8 { return variant_index_; }
+    [[nodiscard]] constexpr auto id() const noexcept -> u8 { return index_; }
 
     template <class T>
     requires ( is_one_of<T, Ts...> )
     [[nodiscard]] constexpr auto is() const noexcept -> bool
     {
-        return variant_index_ == detail::index_of<T, Ts...>();
+        return index_ == detail::index_of<T, Ts...>();
     }
 
     template <class T>
@@ -330,9 +327,7 @@ public:
     {
         assert( is_valid() );
         bool const _ [[maybe_unused]] =
-        ( ( variant_index_ == detail::index_of<Ts, Ts...>()
-            ? ( visitor( as<Ts>( as_forwarding<Args>( args )... ) ), true )
-            : false ) or
+        ( ( index_ == detail::index_of<Ts, Ts...>() ? ( visitor( as<Ts>( as_forwarding<Args>( args )... ) ), true ) : false ) or
           ... );
     }
 
@@ -341,9 +336,7 @@ public:
     {
         assert( is_valid() );
         bool const _ [[maybe_unused]] =
-        ( ( variant_index_ == detail::index_of<Ts, Ts...>()
-            ? ( visitor( as<Ts>( as_forwarding<Args>( args )... ) ), true )
-            : false ) or
+        ( ( index_ == detail::index_of<Ts, Ts...>() ? ( visitor( as<Ts>( as_forwarding<Args>( args )... ) ), true ) : false ) or
           ... );
     }
 };
