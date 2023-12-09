@@ -55,6 +55,9 @@ auto main() -> int
     v6 = variant<bool, char>{};
     assert( !v6.is_valid() );
     v6 = as_movable( v5 );
+    assert( v6.is_valid() );
+    assert( v6.is<char>() );
+    assert( v6.as<char>() == 'a' );
     assert( !v5.is_valid() );
 
     variant<bool, i32, f64> v7 = 10;
