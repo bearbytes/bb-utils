@@ -51,7 +51,7 @@ inline constexpr struct invalid_variant_t {
 
 template <class... Ts>
 requires ( sizeof...( Ts ) > 0 and sizeof...( Ts ) < u8_max and are_unique<Ts...> )
-class variant {
+class alignas( Ts... ) variant {
     static constexpr u8 invalid_index = u8_max;
 
     constexpr auto copy_construct( variant const & other ) noexcept( noexcept_copy_constructible<Ts...>() ) -> void
